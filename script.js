@@ -61,8 +61,6 @@ function countdown() {
 
 function displayHighscores() {
   title.textContent = "Highscores";
-  intro.textContent = "";
-  response.textContent = "";
   timerEl.textContent = "0";
 
   // Remove all content in the quiz body
@@ -83,6 +81,10 @@ function displayHighscores() {
 
   highscoreList.appendChild(li);
   //}
+}
+
+function storeScores(p) {
+  localStorage.setItem("player", JSON.stringify(p));
 }
 
 function nextQuestion(x) {
@@ -114,6 +116,7 @@ function nextQuestion(x) {
         }
       } else {
         response.textContent = "Wrong!";
+        timeLeft = timeLeft - 10;
       } // else display "Wrong!" below the questions
     });
 
@@ -157,7 +160,7 @@ function endQuiz() {
     };
 
     // Store player highscore
-    localStorage.setItem("player", JSON.stringify(player));
+    storeScores(player);
 
     displayHighscores();
   });
