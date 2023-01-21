@@ -72,6 +72,22 @@ function nextQuestion(x) {
   }
 }
 
+function displayHighscores() {
+  top.textContent = "Highscores";
+
+  var storedScores = JSON.parse(localStorage.getItem("player"));
+
+  // Create a display each recorded score as list items
+  for (var i = 0; i < storedScores.length; i++) {
+    var playerLi = storedScores[i];
+
+    var li = document.createElement("li");
+    li.textContent = playerLi.initials + " " + playerLi.highscore;
+
+    quizBody.appendChild(li);
+  }
+}
+
 function endQuiz() {
   //stop the timer
   if (timeLeft > 0) {
@@ -88,22 +104,25 @@ function endQuiz() {
   // create an input
   var input = document.createElement("input");
   input.setAttribute("type", "text");
+  quizBody.appendChild(input);
 
   // create a submit button
   var submitBtn = document.createElement("button");
   submitBtn.textContent = "Submit";
+  quizBody.appendChild(submitBtn);
 
   submitBtn.addEventListener("click", function () {
-    // list highscores (from stored local) like the todos
-    var initials = input.value; // = take in input
-    top.textContent = "Highscores";
-    var highscores = document.createElement("li");
-    highscores.textContent = initials + " " + score;
-    quizBody.appendChild(highscores);
-  });
+    // Store initials and score in an object
+    var player = {
+      initials: input.value.trim(),
+      highscore: score,
+    };
 
-  quizBody.appendChild(input);
-  quizBody.appendChild(submitBtn);
+    // Store player highscore
+    localStorage.setItem("player", JSON.stringify(player));
+
+    displayHighscores();
+  });
 }
 
 // Quiz starts when the start button is clicked
