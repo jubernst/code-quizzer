@@ -74,15 +74,15 @@ function displayHighscores() {
   var storedPlayers = JSON.parse(localStorage.getItem("player"));
 
   // Create and display each score as list items
-  for (var i = 0; i < storedPlayers.length; i++) {
-    var playerI = storedPlayers[i];
+  // for (var i = 0; i < storedPlayers.length; i++) {
+  //var playerI = storedPlayers[i];
 
-    // Not sure why these don't show up. Possibly an issue with storedPlayers.length being undefined
-    var li = document.createElement("li");
-    li.textContent = playerI;
+  // Issue where only one player is stored at a time. I'm not sure how to correct this issue
+  var li = document.createElement("li");
+  li.textContent = storedPlayers.initials + " - " + storedPlayers.highscore;
 
-    highscoreList.appendChild(li);
-  }
+  highscoreList.appendChild(li);
+  //}
 }
 
 function nextQuestion(x) {

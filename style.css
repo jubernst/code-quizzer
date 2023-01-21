@@ -54,12 +54,9 @@ header {
   margin-right: 20px;
 }
 
-#highscore-list {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 100%;
+li {
+  padding-bottom: 5px;
   background-color: azure;
-  justify-content: space-between;
 }
 
 #response {
