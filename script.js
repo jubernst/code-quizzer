@@ -1,33 +1,56 @@
 var startButton = document.querySelector("#start-btn");
 var title = document.querySelector("#title");
+var intro = document.querySelector("#intro");
 var quizBody = document.querySelector("#quiz-body");
 var quizButtons = document.querySelector("#buttons");
-var intro = document.querySelector("#intro");
 var timerEl = document.querySelector("#timer");
+var response = document.querySelector("#response");
+var callHighscores = document.querySelector("#hs");
 
-const questions = ["A", "B"];
+const questions = [
+  "What does HTML stand for?",
+  "What does CSS stand for?",
+  "Which language came first: Java or JavaScript?",
+  "What language preceded C?",
+];
 
 var answersAll = [
-  ["a", "b", "c", "d"],
-  ["e", "f", "g", "h"],
-  //add answers for each question
-];
-var rightAnswer = [
-  "a",
-  "e",
-  //each element is the correct answer for that question
+  [
+    "Hyper Trainer Marking Language",
+    "Hyper Text Marketing Language",
+    "Hyper Text Markup Language",
+    "Hyper Text Markup Leveler",
+  ],
+  [
+    "Cascading Super Sheet",
+    "Cascading Style Sheet",
+    "Coding Style Sheet",
+    "Coding Style Script",
+  ],
+  ["Javascript", "Java"],
+  ["B", "D", "C-"],
 ];
 
+var rightAnswer = [
+  "Hyper Text Markup Language",
+  "Cascading Style Sheet",
+  "Java",
+  "B",
+  //each element is the correct answer for the corresponding question
+];
+
+var timeLeft = 60;
 var score = 0;
 var timeInterval;
-var timeLeft = 60;
 
+// A timer that counts down
 function countdown() {
   timeInterval = setInterval(function () {
     timeLeft--;
     score = timeLeft;
     timerEl.textContent = "Time: " + timeLeft;
 
+    // If the timer reaches 0, end the quiz
     if (timeLeft === 0) {
       clearInterval(timeInterval);
       endQuiz();
@@ -45,10 +68,9 @@ function nextQuestion(x) {
     button.textContent = answersAll[x][i];
 
     button.addEventListener("click", function () {
-      // maybe use this??? idk bro but right now all buttons are telling me WRONG
-      // When this button is clicked
-      // Check if this is the right answer
+      // Check if the clicked button is the right answer
       if (this.textContent === rightAnswer[x]) {
+        response.textContent = "Correct!";
         // Grab the number of the next question
         var nextX = x + 1;
 
@@ -64,27 +86,11 @@ function nextQuestion(x) {
           endQuiz();
         }
       } else {
-        console.log("Wrong!");
+        response.textContent = "Wrong!";
       } // else display "Wrong!" below the questions
     });
 
     quizButtons.appendChild(button);
-  }
-}
-
-function displayHighscores() {
-  top.textContent = "Highscores";
-
-  var storedScores = JSON.parse(localStorage.getItem("player"));
-
-  // Create a display each recorded score as list items
-  for (var i = 0; i < storedScores.length; i++) {
-    var playerLi = storedScores[i];
-
-    var li = document.createElement("li");
-    li.textContent = playerLi.initials + " " + playerLi.highscore;
-
-    quizBody.appendChild(li);
   }
 }
 
@@ -99,17 +105,16 @@ function endQuiz() {
   intro.textContent = "Your score was " + score;
   quizButtons.remove(); //remove the buttons
 
-  quizBody.textContent = "Enter your initials:";
+  var tempText = "Enter your initials:";
+  quizBody.appendChild(tempText);
 
   // create an input
   var input = document.createElement("input");
   input.setAttribute("type", "text");
-  quizBody.appendChild(input);
 
   // create a submit button
   var submitBtn = document.createElement("button");
   submitBtn.textContent = "Submit";
-  quizBody.appendChild(submitBtn);
 
   submitBtn.addEventListener("click", function () {
     // Store initials and score in an object
@@ -123,6 +128,35 @@ function endQuiz() {
 
     displayHighscores();
   });
+
+  quizBody.appendChild(input);
+  quizBody.appendChild(submitBtn);
+}
+
+function displayHighscores() {
+  title.textContent = "Highscores";
+  timerEl.textContent = "0";
+
+  // Remove all content in the quiz body
+  while (quizBody.firstChild) {
+    quizBody.removeChild(quizBody.firstChild);
+  }
+
+  var ul = document.createElement("ul");
+  quizBody.appendChild(ul);
+
+  // Retrieve stored players
+  var storedPlayers = JSON.parse(localStorage.getItem("player"));
+
+  // Create and display each score as list items
+  for (var i = 0; i < storedPlayers.length; i++) {
+    var playerLi = storedPlayers[i];
+
+    var li = document.createElement("li");
+    li.textContent = playerLi.initials + " " + playerLi.highscore;
+
+    quizBody.ul.appendChild(li);
+  }
 }
 
 // Quiz starts when the start button is clicked
@@ -136,4 +170,9 @@ startButton.addEventListener("click", function () {
 
   // Start the quiz
   nextQuestion(0);
+});
+
+// display highscores when the link is clicked
+callHighscores.addEventListener("click", function () {
+  displayHighscores();
 });

@@ -4,26 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
-    <title>Chode Quizzer</title>
+    <title>Code Language Quiz</title>
   </head>
 
   <body>
     <!-- Header -->
     <header>
-      <a href="highscores">View Highscores</a>
+      <a href="#" id="hs">View Highscores</a>
       <timer id="timer">Time: 60</timer>
     </header>
 
-    <div class="quiz">
+    <div class="wrapper">
       <div class="quiz-header" id="title">
-        <h1>Coding Quiz</h1>
+        <h1>Coding Language Quiz</h1>
       </div>
-      <div id="quiz-body">
-        <p id="intro">Welcome to the quiz!</p>
-        <div id="buttons">
+      <div class="quiz-body" id="quiz-body">
+        <p id="intro">
+          Welcome! This quiz will test your knowledge of coding language
+          acronyms. Answer all the questions right in under 60 seconds to pass.
+          Your score will be determined by how much time is left on the clock!
+          Good Luck!
+        </p>
+        <div class="quiz-buttons" id="buttons">
           <button id="start-btn">Start</button>
         </div>
-        <span id="wrong"></span>
+        <span id="response"></span>
       </div>
     </div>
 
