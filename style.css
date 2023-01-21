@@ -26,11 +26,8 @@ header {
 
 .quiz-header {
   text-align: center;
-  font-size: 2.2rem;
+  font-size: 2rem;
   padding-bottom: 3%;
-}
-
-.quiz-header #title {
   font-weight: bold;
 }
 
@@ -43,10 +40,21 @@ header {
 }
 
 .quiz-buttons {
-  display: block;
+  display: flex;
+  justify-content: center;
 }
 
-.quiz-body li {
+.quiz-buttons button {
+  background-color: rgb(70, 29, 108);
+  color: aliceblue;
+  border-style: solid;
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px 30px;
+  margin-right: 20px;
+}
+
+#highscore-list {
   display: flex;
   flex-wrap: wrap;
   flex: 100%;
@@ -54,23 +62,9 @@ header {
   justify-content: space-between;
 }
 
-button {
-  background-color: rgb(167, 119, 212);
-  border-style: solid;
-  border-radius: 10px;
-  text-align: center;
-  padding: 10px 30px;
-  align-self: flex-start;
-}
-
-#start-btn {
-  align-self: center;
-}
-
 #response {
   font-style: italic;
-  color: darkgray;
-  border-top: 2px;
-  border-color: darkgray;
-  font-size: 2rem;
+  color: rgb(57, 60, 78);
+  padding-top: 2%;
+  font-size: 1.5rem;
 }

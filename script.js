@@ -5,6 +5,7 @@ var quizBody = document.querySelector("#quiz-body");
 var quizButtons = document.querySelector("#buttons");
 var timerEl = document.querySelector("#timer");
 var response = document.querySelector("#response");
+var highscoreList = document.querySelector("#highscore-list");
 var callHighscores = document.querySelector("#hs");
 
 const questions = [
@@ -58,6 +59,32 @@ function countdown() {
   }, 1000);
 }
 
+function displayHighscores() {
+  title.textContent = "Highscores";
+  intro.textContent = "";
+  response.textContent = "";
+  timerEl.textContent = "0";
+
+  // Remove all content in the quiz body
+  while (quizBody.firstChild) {
+    quizBody.firstChild.remove();
+  }
+
+  // Retrieve stored players
+  var storedPlayers = JSON.parse(localStorage.getItem("player"));
+
+  // Create and display each score as list items
+  for (var i = 0; i < storedPlayers.length; i++) {
+    var playerI = storedPlayers[i];
+
+    // Not sure why these don't show up. Possibly an issue with storedPlayers.length being undefined
+    var li = document.createElement("li");
+    li.textContent = playerI;
+
+    highscoreList.appendChild(li);
+  }
+}
+
 function nextQuestion(x) {
   // Render the current question
   title.textContent = questions[x];
@@ -101,18 +128,24 @@ function endQuiz() {
     clearInterval(timeInterval);
   }
 
+  // remove the buttons
+  quizButtons.remove();
+  //Remove the response text
+  response.remove();
+
   title.textContent = "All done!";
   intro.textContent = "Your score was " + score;
-  quizButtons.remove(); //remove the buttons
 
-  var tempText = "Enter your initials:";
+  var tempText = document.createElement("a");
+  tempText.textContent = "Enter your initials: ";
   quizBody.appendChild(tempText);
 
-  // create an input
+  // Create an input
   var input = document.createElement("input");
   input.setAttribute("type", "text");
+  quizBody.appendChild(input);
 
-  // create a submit button
+  // Create a submit button
   var submitBtn = document.createElement("button");
   submitBtn.textContent = "Submit";
 
@@ -129,34 +162,7 @@ function endQuiz() {
     displayHighscores();
   });
 
-  quizBody.appendChild(input);
   quizBody.appendChild(submitBtn);
-}
-
-function displayHighscores() {
-  title.textContent = "Highscores";
-  timerEl.textContent = "0";
-
-  // Remove all content in the quiz body
-  while (quizBody.firstChild) {
-    quizBody.removeChild(quizBody.firstChild);
-  }
-
-  var ul = document.createElement("ul");
-  quizBody.appendChild(ul);
-
-  // Retrieve stored players
-  var storedPlayers = JSON.parse(localStorage.getItem("player"));
-
-  // Create and display each score as list items
-  for (var i = 0; i < storedPlayers.length; i++) {
-    var playerLi = storedPlayers[i];
-
-    var li = document.createElement("li");
-    li.textContent = playerLi.initials + " " + playerLi.highscore;
-
-    quizBody.ul.appendChild(li);
-  }
 }
 
 // Quiz starts when the start button is clicked
